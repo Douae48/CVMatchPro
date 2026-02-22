@@ -1,0 +1,124 @@
+﻿@model IEnumerable<linkedin.Models.Offre>
+@{
+    ViewData["Title"] = "Gestion des Offres";
+}
+
+<div class="offers-management">
+    <!-- Header -->
+    <div class="management-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="page-title">Gestion des offres d'emploi</h1>
+                    <p class="page-subtitle">Créez, modifiez et gérez vos offres d'emploi</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <a asp-action="Create" class="btn-create-new">
+                        <i class="fas fa-plus"></i>
+                        Créer une nouvelle offre
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="management-content">
+        <div class="container">
+            <!-- Tableau des offres -->
+            <div class="offers-table-card">
+                <div class="table-responsive">
+                    <table class="offers-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Titre)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DatePublication)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CompetencesRequises)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ExperienceRequise)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DiplomeRequis)
+                                </th>
+                                <th class="actions-column">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="title-cell">
+                                        <div class="job-title">
+                                            @Html.DisplayFor(modelItem => item.Titre)
+                                        </div>
+                                    </td>
+                                    <td class="description-cell">
+                                        <div class="job-description">
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </div>
+                                    </td>
+                                    <td class="date-cell">
+                                        <div class="job-date">
+                                            @item.DatePublication.ToString("dd/MM/yyyy")
+                                        </div>
+                                    </td>
+                                    <td class="skills-cell">
+                                        <div class="skills-tags">
+                                            @if (!string.IsNullOrEmpty(item.CompetencesRequises))
+                                            {
+                                                @foreach (var skill in item.CompetencesRequises.Split(',').Take(3))
+                                                {
+                                                    <span class="skill-tag">@skill.Trim()</span>
+                                                }
+                                                @if (item.CompetencesRequises.Split(',').Length > 3)
+                                                {
+                                                    <span class="skill-more">+@(item.CompetencesRequises.Split(',').Length - 3)</span>
+                                                }
+                                            }
+                                        </div>
+                                    </td>
+                                    <td class="experience-cell">
+                                        @Html.DisplayFor(modelItem => item.ExperienceRequise)
+                                    </td>
+                                    <td class="diploma-cell">
+                                        @Html.DisplayFor(modelItem => item.DiplomeRequis)
+                                    </td>
+                                    <td class="actions-cell">
+                                        <div class="action-buttons">
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn-action btn-edit" title="Modifier">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a asp-action="Details" asp-route-id="@item.Id" class="btn-action btn-details" title="Détails">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn-action btn-delete" title="Supprimer">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Actions supplémentaires -->
+            <div class="additional-actions">
+                <a href="@Url.Action("OffersCvCount", "Reports")" class="btn-reports">
+                    <i class="fas fa-chart-bar"></i>
+                    Voir les rapports
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

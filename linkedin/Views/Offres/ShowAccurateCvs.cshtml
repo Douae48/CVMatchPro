@@ -1,0 +1,168 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "CV Correspondants";
+   
+}
+
+<div class="cv-matching-page">
+    <!-- Header moderne -->
+    <div class="matching-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="page-title">CV les Plus Pertinents</h2>
+                    <p class="page-subtitle">Classement automatique basé sur la correspondance avec l'offre d'emploi</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <a href="@Url.Action("OffersCvCount", "Reports")" class="btn-back-to-reports">
+                        <i class="fas fa-arrow-left"></i>
+                        Retour aux rapports
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="container">
+        <div class="matching-wrapper">
+            <!-- Stats de correspondance -->
+            <div class="matching-stats">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon excellent">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-number">@(Model?.Count(x => (double)x.Score >= 80) ?? 0)</span>
+                                <span class="stat-label">Excellents (≥80%)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon good">
+                                <i class="fas fa-thumbs-up"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-number">@(Model?.Count(x => (double)x.Score >= 60 && (double)x.Score < 80) ?? 0)</span>
+                                <span class="stat-label">Bons (60-79%)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon average">
+                                <i class="fas fa-minus-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-number">@(Model?.Count(x => (double)x.Score >= 40 && (double)x.Score < 60) ?? 0)</span>
+                                <span class="stat-label">Moyens (40-59%)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon poor">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-number">@(Model?.Count(x => (double)x.Score < 40) ?? 0)</span>
+                                <span class="stat-label">Faibles (<40%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tableau des CV -->
+            <div class="cv-table-wrapper">
+                <div class="table-responsive">
+                    @if (Model != null && Model.Any())
+                    {
+                        <table class="cv-matching-table">
+                            <thead>
+                                <tr>
+                                    <th>Rang</th>
+                                    <th>ID CV</th>
+                                    <th>Date de soumission</th>
+                                    <th>Score de correspondance</th>
+                                    <th>Niveau</th>
+                                    <th>Télécharger CV</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int rank = 1;
+                                }
+                                @foreach (var item in Model.OrderByDescending(x => (double)x.Score))
+                                {
+                                    var score = (double)item.Score;
+                                    var scoreClass = score >= 80 ? "excellent" : score >= 60 ? "good" : score >= 40 ? "average" : "poor";
+                                    var levelText = score >= 80 ? "Excellent" : score >= 60 ? "Bon" : score >= 40 ? "Moyen" : "Faible";
+
+                                    <tr class="cv-row">
+                                        <td>
+                                            <div class="rank-badge rank-@rank">
+                                                @if (rank <= 3)
+                                                {
+                                                    <i class="fas fa-medal"></i>
+                                                }
+                                                #@rank
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="cv-id-badge">#@item.CV.CVId</span>
+                                        </td>
+                                        <td>
+                                            <div class="date-info">
+                                                <i class="fas fa-calendar-alt me-2"></i>
+                                                @item.CV.UploadedAt.ToString("dd/MM/yyyy")
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="score-container">
+                                                <div class="score-bar">
+                                                    <div class="score-fill @scoreClass" style="width: @(score)%"></div>
+                                                </div>
+                                                <span class="score-text @scoreClass">@score.ToString("F1")%</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="level-badge @scoreClass">@levelText</span>
+                                        </td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <a href="@item.CV.FilePath" target="_blank" class="btn-download">
+                                                    <i class="fas fa-download"></i>
+                                                    Télécharger
+                                                </a>
+                                               
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    rank++;
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <!-- État vide -->
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h3>Aucun CV trouvé</h3>
+                            <p>Il n'y a actuellement aucun CV soumis pour cette offre d'emploi.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

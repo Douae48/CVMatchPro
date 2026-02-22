@@ -1,0 +1,147 @@
+﻿@model linkedin.Models.Offre
+@{
+    ViewData["Title"] = "Détails de l'offre";
+}
+
+<div class="details-offer-page">
+    <!-- Header -->
+    <div class="details-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="page-title">Détails de l'offre</h1>
+                    <p class="page-subtitle">Consultez toutes les informations de cette offre d'emploi</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <a asp-action="Index" class="btn-back-to-list">
+                        <i class="fas fa-arrow-left"></i>
+                        Retour à la liste
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="details-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-8">
+                    <!-- Carte des détails -->
+                    <div class="offer-details-card">
+                        <!-- En-tête de la carte -->
+                        <div class="card-header">
+                            <div class="offer-header-content">
+                                <div class="offer-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="offer-title-section">
+                                    <h2 class="offer-title">@Html.DisplayFor(model => model.Titre)</h2>
+                                    <div class="offer-meta">
+                                        <span class="publication-date">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            Publié le @Html.DisplayFor(model => model.DatePublication)
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Corps de la carte -->
+                        <div class="card-body">
+                            <div class="details-grid">
+                                <!-- Description -->
+                                <div class="detail-section">
+                                    <div class="section-header">
+                                        <i class="fas fa-align-left"></i>
+                                        <h4>@Html.DisplayNameFor(model => model.Description)</h4>
+                                    </div>
+                                    <div class="section-content description-content">
+                                        @Html.DisplayFor(model => model.Description)
+                                    </div>
+                                </div>
+
+                                <!-- Compétences requises -->
+                                <div class="detail-section">
+                                    <div class="section-header">
+                                        <i class="fas fa-code"></i>
+                                        <h4>@Html.DisplayNameFor(model => model.CompetencesRequises)</h4>
+                                    </div>
+                                    <div class="section-content">
+                                        @if (!string.IsNullOrEmpty(Model.CompetencesRequises))
+                                        {
+                                            <div class="skills-display">
+                                                @foreach (var skill in Model.CompetencesRequises.Split(','))
+                                                {
+                                                    <span class="skill-badge">@skill.Trim()</span>
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <span class="empty-field">Non spécifié</span>
+                                        }
+                                    </div>
+                                </div>
+
+                                <!-- Expérience requise -->
+                                <div class="detail-section">
+                                    <div class="section-header">
+                                        <i class="fas fa-user-tie"></i>
+                                        <h4>@Html.DisplayNameFor(model => model.ExperienceRequise)</h4>
+                                    </div>
+                                    <div class="section-content">
+                                        <div class="experience-badge">
+                                            @if (!string.IsNullOrEmpty(Model.ExperienceRequise))
+                                            {
+                                                @Html.DisplayFor(model => model.ExperienceRequise)
+                                            }
+                                            else
+                                            {
+                                                <span class="empty-field">Non spécifié</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Diplôme requis -->
+                                <div class="detail-section">
+                                    <div class="section-header">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <h4>@Html.DisplayNameFor(model => model.DiplomeRequis)</h4>
+                                    </div>
+                                    <div class="section-content">
+                                        <div class="diploma-badge">
+                                            @if (!string.IsNullOrEmpty(Model.DiplomeRequis))
+                                            {
+                                                @Html.DisplayFor(model => model.DiplomeRequis)
+                                            }
+                                            else
+                                            {
+                                                <span class="empty-field">Non spécifié</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="card-footer">
+                            <div class="action-buttons">
+                                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn-edit">
+                                    <i class="fas fa-edit"></i>
+                                    Modifier cette offre
+                                </a>
+                                <a asp-action="Index" class="btn-back">
+                                    <i class="fas fa-list"></i>
+                                    Retour à la liste
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

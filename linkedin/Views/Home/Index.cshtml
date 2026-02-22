@@ -1,0 +1,123 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6">
+                <h1 class="hero-title">Trouvez le job qui vous correspond</h1>
+                <p class="hero-subtitle">cvMatch Pro facilite le recrutement grâce à des outils intelligents qui connectent les talents aux opportunités parfaites.</p>
+
+                <div class="hero-buttons mt-4">
+                    <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        Se connecter pour voir les offres
+                    </a>
+                    <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-user-plus me-2"></i>
+                        S'inscrire
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                         alt="Équipe professionnelle en réunion" class="img-fluid rounded-4 shadow-lg">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Secteurs d'activité -->
+<section class="sectors-section py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Explorez nos secteurs d'activité</h2>
+            <p class="text-muted">Des opportunités dans tous les domaines</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="sector-card text-center h-100">
+                    <div class="sector-icon mb-3">💻</div>
+                    <h5>Informatique</h5>
+                    <small class="text-muted">1,250+ offres</small>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="sector-card text-center h-100">
+                    <div class="sector-icon mb-3">💰</div>
+                    <h5>Finance</h5>
+                    <small class="text-muted">890+ offres</small>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="sector-card text-center h-100">
+                    <div class="sector-icon mb-3">🏥</div>
+                    <h5>Santé</h5>
+                    <small class="text-muted">650+ offres</small>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="sector-card text-center h-100">
+                    <div class="sector-icon mb-3">📚</div>
+                    <h5>Éducation</h5>
+                    <small class="text-muted">420+ offres</small>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="sector-card text-center h-100">
+                    <div class="sector-icon mb-3">📊</div>
+                    <h5>Marketing</h5>
+                    <small class="text-muted">780+ offres</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistiques -->
+<section class="stats-section py-5">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-number">10,000+</div>
+                    <div class="stat-label">Candidats inscrits</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-number">2,000+</div>
+                    <div class="stat-label">Entreprises partenaires</div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card">
+                    <div class="stat-number">5,000+</div>
+                    <div class="stat-label">Offres publiées</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-3">Prêt à démarrer votre recherche ?</h2>
+                <p class="text-muted mb-4">Connectez-vous pour accéder à toutes nos offres d'emploi</p>
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary btn-lg">
+                    <i class="fas fa-rocket me-2"></i>
+                    Commencer maintenant
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+

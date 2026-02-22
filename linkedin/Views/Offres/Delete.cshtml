@@ -1,0 +1,138 @@
+﻿@model linkedin.Models.Offre
+@{
+    ViewData["Title"] = "Supprimer l'offre";
+}
+
+<div class="delete-offer-page">
+    <!-- Header -->
+    <div class="delete-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="page-title">Supprimer l'offre</h1>
+                    <p class="page-subtitle">Confirmer la suppression de cette offre d'emploi</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <a asp-action="Index" class="btn-back-to-list">
+                        <i class="fas fa-arrow-left"></i>
+                        Retour à la liste
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="delete-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    <!-- Alerte de confirmation -->
+                    <div class="delete-warning">
+                        <div class="warning-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3>Êtes-vous sûr de vouloir supprimer cette offre ?</h3>
+                        <p>Cette action est irréversible. L'offre sera définitivement supprimée.</p>
+                    </div>
+
+                    <!-- Carte des détails -->
+                    <div class="offer-details-card">
+                        <div class="card-header">
+                            <h4>Détails de l'offre</h4>
+                        </div>
+
+                        <div class="details-list">
+                            <div class="detail-item">
+                                <dt class="detail-label">
+                                    <i class="fas fa-briefcase"></i>
+                                    @Html.DisplayNameFor(model => model.Titre)
+                                </dt>
+                                <dd class="detail-value">
+                                    @Html.DisplayFor(model => model.Titre)
+                                </dd>
+                            </div>
+
+                            <div class="detail-item">
+                                <dt class="detail-label">
+                                    <i class="fas fa-align-left"></i>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </dt>
+                                <dd class="detail-value">
+                                    @Html.DisplayFor(model => model.Description)
+                                </dd>
+                            </div>
+
+                            <div class="detail-item">
+                                <dt class="detail-label">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    @Html.DisplayNameFor(model => model.DatePublication)
+                                </dt>
+                                <dd class="detail-value">
+                                    @Html.DisplayFor(model => model.DatePublication)
+                                </dd>
+                            </div>
+
+                            <div class="detail-item">
+                                <dt class="detail-label">
+                                    <i class="fas fa-code"></i>
+                                    @Html.DisplayNameFor(model => model.CompetencesRequises)
+                                </dt>
+                                <dd class="detail-value">
+                                    @if (!string.IsNullOrEmpty(Model.CompetencesRequises))
+                                    {
+                                        <div class="skills-display">
+                                            @foreach (var skill in Model.CompetencesRequises.Split(','))
+                                            {
+                                                <span class="skill-badge">@skill.Trim()</span>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.DisplayFor(model => model.CompetencesRequises)
+                                    }
+                                </dd>
+                            </div>
+
+                            <div class="detail-item">
+                                <dt class="detail-label">
+                                    <i class="fas fa-user-tie"></i>
+                                    @Html.DisplayNameFor(model => model.ExperienceRequise)
+                                </dt>
+                                <dd class="detail-value">
+                                    @Html.DisplayFor(model => model.ExperienceRequise)
+                                </dd>
+                            </div>
+
+                            <div class="detail-item">
+                                <dt class="detail-label">
+                                    <i class="fas fa-graduation-cap"></i>
+                                    @Html.DisplayNameFor(model => model.DiplomeRequis)
+                                </dt>
+                                <dd class="detail-value">
+                                    @Html.DisplayFor(model => model.DiplomeRequis)
+                                </dd>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="delete-actions">
+                            <form asp-action="Delete" class="delete-form">
+                                <input type="hidden" asp-for="Id" />
+                                <button type="submit" class="btn-delete">
+                                    <i class="fas fa-trash"></i>
+                                    Confirmer la suppression
+                                </button>
+                                <a asp-action="Index" class="btn-cancel">
+                                    <i class="fas fa-times"></i>
+                                    Annuler
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

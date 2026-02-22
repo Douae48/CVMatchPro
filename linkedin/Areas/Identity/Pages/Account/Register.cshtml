@@ -1,0 +1,62 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <h1 class="login-title">Créer un compte</h1>
+            <p class="login-subtitle">Rejoignez cvMatch Pro et révolutionnez votre recrutement</p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="login-form">
+                    <div asp-validation-summary="ModelOnly" class="alert-danger" role="alert"></div>
+
+                    <div class="form-group">
+                        <label asp-for="Input.Email" class="form-label">Adresse email</label>
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="votre.email@exemple.com" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Input.Password" class="form-label">Mot de passe</label>
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Créez un mot de passe sécurisé" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Input.ConfirmPassword" class="form-label">Confirmer le mot de passe</label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Répétez votre mot de passe" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="terms" required>
+                        <label class="form-check-label" for="terms">
+                            J'accepte les <a href="#" class="link">conditions d'utilisation</a> et la <a href="#" class="link">politique de confidentialité</a>
+                        </label>
+                    </div>
+
+                    <button id="registerSubmit" type="submit" class="btn-login">
+                        Créer mon compte
+                    </button>
+
+                    <div class="login-links">
+                        <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="link">
+                            Vous avez déjà un compte ? Connectez-vous
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,213 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model IEnumerable<linkedin.Models.Offre>
+@{
+    ViewData["Title"] = "Job Opportunities";
+}
+
+
+<head>
+    <link rel="stylesheet" href="~/css/Index2.css" asp-append-version="true" />
+</head>
+
+<!-- Header avec background moderne -->
+<div class="offers-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <div class="welcome-content">
+                    <h1 class="welcome-title">
+                        Bienvenue !
+                    </h1>
+                    <p class="welcome-subtitle">Découvrez les opportunités qui correspondent à votre profil</p>
+                    <div class="stats-quick">
+                        <div class="stat-item">
+                            <span class="stat-number">@(Model?.Count() ?? 0)</span>
+                            <span class="stat-label">Offres disponibles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 text-end">
+                <a href="@Url.Action("MyUser", "Home")" class="btn-back">
+                    <i class="fas fa-arrow-left me-2"></i>Retour
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Contenu principal -->
+<div class="offers-content">
+    <div class="container">
+        <!-- Success Message -->
+        @if (TempData["Success"] != null)
+        {
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '@TempData["Success"]',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    toast: true,
+                    position: 'top-end'
+                });
+            </script>
+        }
+
+        <!-- Section header -->
+        <div class="content-header">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h2 class="section-title">Offres d'emploi disponibles</h2>
+                    <p class="section-subtitle">Uploadez votre CV pour postuler aux postes qui correspondent à vos compétences</p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <div class="filter-actions">
+                        <button class="btn-filter">
+                            <i class="fas fa-filter me-1"></i>Filtrer
+                        </button>
+                        <button class="btn-sort">
+                            <i class="fas fa-sort me-1"></i>Trier
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grille des offres -->
+        @if (Model != null && Model.Any())
+        {
+            <div class="offers-grid">
+                @foreach (var offre in Model)
+                {
+                    <div class="offer-card">
+                        <!-- En-tête de la carte -->
+                        <div class="card-header">
+                            <div class="card-meta">
+                                <span class="job-type">
+                                    <i class="fas fa-briefcase"></i>
+                                    Temps plein
+                                </span>
+                                <span class="job-date">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    @offre.DatePublication.ToString("dd MMM")
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Corps de la carte -->
+                        <div class="card-body">
+                            <h3 class="job-title">@offre.Titre</h3>
+                            <p class="job-description">@offre.Description</p>
+
+                            <!-- Informations détaillées -->
+                            <div class="job-details">
+                                @if (!string.IsNullOrEmpty(offre.CompetencesRequises))
+                                {
+                                    <div class="detail-item">
+                                        <i class="fas fa-code"></i>
+                                        <div>
+                                            <strong>Compétences requises:</strong>
+                                            <div class="skills-tags">
+                                                @foreach (var skill in offre.CompetencesRequises.Split(','))
+                                                {
+                                                    <span class="skill-tag">@skill.Trim()</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (!string.IsNullOrEmpty(offre.ExperienceRequise))
+                                {
+                                    <div class="detail-item">
+                                        <i class="fas fa-user-tie"></i>
+                                        <div>
+                                            <strong>Expérience:</strong>
+                                            <span>@offre.ExperienceRequise</span>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (!string.IsNullOrEmpty(offre.DiplomeRequis))
+                                {
+                                    <div class="detail-item">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <div>
+                                            <strong>Diplôme:</strong>
+                                            <span>@offre.DiplomeRequis</span>
+                                        </div>
+                                    </div>
+                                }
+
+                                <div class="detail-item">
+                                    <i class="fas fa-clock"></i>
+                                    <div>
+                                        <strong>Publié:</strong>
+                                        <span>Il y a @((DateTime.Now - offre.DatePublication).Days) jour(s)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer avec upload -->
+                        <div class="card-footer">
+                            <form asp-controller="Candidatures" asp-action="Upload" method="post" enctype="multipart/form-data" class="upload-form">
+                                <input type="hidden" name="offreId" value="@offre.Id" />
+
+                                <div class="upload-section">
+                                    <label class="upload-label">
+                                        <i class="fas fa-file-upload"></i>
+                                        Uploadez votre CV
+                                    </label>
+                                    <div class="upload-group">
+                                        <input type="file"
+                                               name="cvFile"
+                                               class="file-input"
+                                               accept=".pdf,.doc,.docx"
+                                               required
+                                               id="cvFile_@offre.Id" />
+                                        <button type="submit" class="btn-apply">
+                                            <i class="fas fa-paper-plane"></i>
+                                            Postuler
+                                        </button>
+                                    </div>
+                                    <small class="upload-info">
+                                        <i class="fas fa-info-circle"></i>
+                                        Formats acceptés: PDF, DOC, DOCX (Max 5MB)
+                                    </small>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <!-- État vide -->
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3 class="empty-title">Aucune offre d'emploi disponible</h3>
+                <p class="empty-text">Revenez plus tard pour découvrir de nouvelles opportunités ou contactez le support pour obtenir de l'aide.</p>
+                <div class="empty-alert">
+                    <i class="fas fa-bell"></i>
+                    Nous vous préviendrons dès que de nouveaux postes seront disponibles !
+                </div>
+            </div>
+        }
+    </div>
+</div>
